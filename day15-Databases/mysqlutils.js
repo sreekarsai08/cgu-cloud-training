@@ -13,8 +13,8 @@ let getStudentsdatafromRDS = async () => {
             
             connection.query('SELECT * from students', function (error, results, fields) {
             if (error) return reject(error);
-            console.log('The solution is: ', results[0].solution);
-            return resolve(results[0].solution);
+            console.log('The solution is: ', results);
+            return resolve(results);
             });
  
             connection.end();
