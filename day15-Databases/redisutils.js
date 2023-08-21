@@ -20,6 +20,24 @@ let getFromRedis = async () => {
     });
 }
 
+let setToRedisWithExpiry = async (key, value, expiry) => {
+    return new Promise(async (resolve, reject) => {
+        await client.connect();
+
+        console.log('Connected to Redis');
+
+        await client.set(key, value, 'EX', expiry);
+
+        console.log('Value set to Redis');
+
+        await client.disconnect();
+
+        return resolve();
+
+    });
+}
+
 module.exports = {
-    getFromRedis
+    getFromRedis,
+    setToRedisWithExpiry
 }

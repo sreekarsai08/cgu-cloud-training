@@ -15,10 +15,11 @@ app.get('/students', async (req, res) => {
         let redisCacheData = await redisutils.getFromRedis();
         if (redisCacheData) {
             console.log('Data from Redis Cache');
-            res.send(redisCacheData);
+            res.send(JSON.parse(redisCacheData));
         } else {
             console.log('Data from MySQL');
             let response  = await mysqlutils.getStudentsdatafromRDS();
+            await redisutils.setToRedisWithExpiry('students', JSON.stringify(response), 20);
             res.send(response);
         }
     } catch (error) {
