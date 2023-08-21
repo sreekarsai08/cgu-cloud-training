@@ -13,14 +13,15 @@ app.get('/', (req, res) => {
 app.get('/students', async (req, res) => {
     try {
         let redisCacheData = await redisutils.getFromRedis();
-        if (redisCacheData) {
-            console.log('Data from Redis Cache');
-            res.send(redisCacheData);
-        } else {
-            console.log('Data from MySQL');
-            let response  = await mysqlutils.getStudentsdatafromRDS();
-            res.send(response);
-        }
+        res.send(redisCacheData);
+        // if (redisCacheData) {
+        //     console.log('Data from Redis Cache');
+        //     res.send(redisCacheData);
+        // } else {
+        //     console.log('Data from MySQL');
+        //     let response  = await mysqlutils.getStudentsdatafromRDS();
+        //     res.send(response);
+        // }
     } catch (error) {
         console.log(`Error: ${error}`);
         // 400 response code
