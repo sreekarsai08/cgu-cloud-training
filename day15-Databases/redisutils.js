@@ -1,5 +1,7 @@
 const { createClient } = require('redis');
-const client = createClient({'host': 'rediscluster.ahvfts.ng.0001.aps1.cache.amazonaws.com', 'port': 6379});
+const client = createClient({
+    url: 'redis://rediscluster.ahvfts.ng.0001.aps1.cache.amazonaws.com:6379'}
+    );
 
 client.on('error', err => console.log('Redis Client Error', err));
 
