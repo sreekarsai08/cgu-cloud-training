@@ -4,6 +4,7 @@ const app = express();
 
 const mysqlutils = require('./mysqlutils');
 const dynamodbutils = require('./dynamodbutils');
+const redisutils = require('./redisutils');
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
@@ -11,8 +12,15 @@ app.get('/', (req, res) => {
 
 app.get('/students', async (req, res) => {
     try {
-        let response  = await mysqlutils.getStudentsdatafromRDS();
-        res.send(response);
+        let redisCacheData = await redisutils.getFromRedis();
+        if (redisCacheData) {
+            console.log('Data from Redis Cache');
+            res.send(redisCacheData);
+        } else {
+            console.log('Data from MySQL');
+            let response  = await mysqlutils.getStudentsdatafromRDS();
+            res.send(response);
+        }
     } catch (error) {
         console.log(`Error: ${error}`);
         // 400 response code
