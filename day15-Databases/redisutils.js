@@ -8,7 +8,10 @@ client.on('error', err => console.log('Redis Client Error', err));
 let getFromRedis = async () => {
     return new Promise(async (resolve, reject) => {
         await client.connect();
+
         console.log('Connected to Redis');
+        
+        await client.disconnect();
         return resolve(true);
     });
 }
