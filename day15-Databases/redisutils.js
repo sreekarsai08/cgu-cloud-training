@@ -11,8 +11,12 @@ let getFromRedis = async () => {
 
         console.log('Connected to Redis');
         
+        const value = await client.get('students');
+
+        console.log('Value from Redis', value);
+
         await client.disconnect();
-        return resolve(true);
+        return resolve(value);
     });
 }
 
